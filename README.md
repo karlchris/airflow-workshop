@@ -8,6 +8,16 @@ This is very simple repo structure of airflow.
 - run ```docker-compose up``` to start the Airflow services.
 - The webserver is available at: http://localhost:8080. The default account has the login `airflow` and the password `airflow`.
 
+## Add GCP connections
+- Go to `Admin` tab above and choose `Connections`.
+- click on plus sign to create one.
+- fill `Connection ID` with `google_cloud_default`.
+- choose `Connection Type` to `Google Cloud`.
+- copy JSON key from GCP IAM, put it in `Keyfile JSON` box.
+- connection is ready.
+
 ## Add DAG
-- go to [/dags](https://github.com/karlchris/airflow-workshop/tree/main/dags) to put your python script.
-- 
+- go to [dags](https://github.com/karlchris/airflow-workshop/tree/main/dags) to put your pipeline python script.
+- put the sql files in [dags/sql/](https://github.com/karlchris/airflow-workshop/tree/main/dags/sql).
+- if you want to have some default functions, commonly called `utils`, you can put [dags/utils/](https://github.com/karlchris/airflow-workshop/tree/main/dags/utils)
+- your added DAG will show in airflow UI shortly.

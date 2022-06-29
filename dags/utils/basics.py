@@ -1,4 +1,4 @@
-SQL_PARENT_PATH = "sql/"
+SQL_PARENT_PATH = "dags/sql/"
 
 
 def read_sql(table_name):
