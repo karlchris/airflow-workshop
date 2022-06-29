@@ -16,7 +16,7 @@ yesterday = datetime.datetime.combine(
 location = 'US'
 
 project_id = "test-project-karl"
-dataset_name = "airflow_workshop"
+dataset_name = "airflow_test"
 table_name = "covid_table"
 
 default_dag_args = {
@@ -48,11 +48,6 @@ with models.DAG(
 
     sql = read_sql(table_name)
 
-    bq_dataset = bigquery.BigQueryCreateEmptyDatasetOperator(
-        task_id=f"create_dataset_{dataset_name}",
-        dataset_id=dataset_name,
-    )
-
     run_query = bigquery.BigQueryInsertJobOperator(
         task_id=f"run_query_table_{table_name}",
         configuration={
@@ -64,9 +59,10 @@ with models.DAG(
                     "datasetId": dataset_name,
                     "tableId": table_name,
                 },
+                "writeDisposition": "WRITE_TRUNCATE",
             }
         },
         location=location,
     )
 
-start >> bq_dataset >> run_query >> end
+start >> run_query >> end
