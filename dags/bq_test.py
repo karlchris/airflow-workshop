@@ -9,12 +9,15 @@ from utils.basics import read_sql
 
 
 today_date = datetime.datetime.now().strftime("%Y%m%d")
-table_name = "covid_table"
 yesterday = datetime.datetime.combine(
     datetime.datetime.today() - datetime.timedelta(1),
     datetime.datetime.min.time()
 )
 location = 'US'
+
+project_id = "test-project-karl"
+dataset_name = "airflow_workshop"
+table_name = "covid_table"
 
 default_dag_args = {
     # Setting start date as yesterday starts the DAG immediately when it is
@@ -27,7 +30,7 @@ default_dag_args = {
     # If a task fails, retry it once after waiting at least 5 minutes
     'retries': 0,
     'retry_delay': datetime.timedelta(minutes=5),
-    'project_id': 'test-project-karl'
+    'project_id': project_id
 }
 
 with models.DAG(
@@ -45,15 +48,20 @@ with models.DAG(
 
     sql = read_sql(table_name)
 
-    bq_query = bigquery.BigQueryInsertJobOperator(
-        task_id="bq_query",
+    bq_dataset = bigquery.BigQueryCreateEmptyDatasetOperator(
+        task_id=f"create_dataset_{dataset_name}",
+        dataset_id=dataset_name,
+    )
+
+    run_query = bigquery.BigQueryInsertJobOperator(
+        task_id=f"run_query_table_{table_name}",
         configuration={
             "query": {
                 "query": sql,
                 "useLegacySql": False,
                 "destinationTable": {
-                    "projectId": "test-project-karl",
-                    "datasetId": "airflow_test",
+                    "projectId": project_id,
+                    "datasetId": dataset_name,
                     "tableId": table_name,
                 },
             }
@@ -61,4 +69,4 @@ with models.DAG(
         location=location,
     )
 
-start >> bq_query >> end
+start >> bq_dataset >> run_query >> end
