@@ -5,9 +5,11 @@ from airflow import models
 from airflow.providers.google.cloud.operators import bigquery
 from airflow.operators.dummy_operator import DummyOperator
 
+from utils.basics import read_sql
+
 
 today_date = datetime.datetime.now().strftime("%Y%m%d")
-table_name = 'airflow_test.random_table'
+table_name = "covid_table"
 yesterday = datetime.datetime.combine(
     datetime.datetime.today() - datetime.timedelta(1),
     datetime.datetime.min.time()
@@ -41,7 +43,7 @@ with models.DAG(
     logging.error('trying to bq_query: ')
     logging.error('table name: ' + table_name)
 
-    sql = """ SELECT 1 as val """
+    sql = read_sql(table_name)
 
     bq_query = bigquery.BigQueryInsertJobOperator(
         task_id="bq_query",
@@ -52,8 +54,8 @@ with models.DAG(
                 "destinationTable": {
                     "projectId": "test-project-karl",
                     "datasetId": "airflow_test",
-                    "tableId": "random_table",
-                }
+                    "tableId": table_name,
+                },
             }
         },
         location=location,
