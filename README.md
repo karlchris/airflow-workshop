@@ -8,6 +8,11 @@ This is very simple repo structure of airflow.
 - run ```docker-compose up``` to start the Airflow services.
 - The webserver is available at: http://localhost:8080. The default account has the login `airflow` and the password `airflow`.
 
+## Google BigQuery
+- go to this [url](https://console.cloud.google.com/projectselector2/home/dashboard?_ga=2.189591977.383272846.1656521391-950865466.1656521391)
+- login with your gmail.
+- your first project ID will be created.
+
 ## Add GCP connections
 - Go to `Admin` tab above and choose `Connections`.
 - click on plus sign to create one.
