@@ -1,9 +1,9 @@
 SELECT
-    TIMESTAMP_TRUNC(timestamp, month) AS month_key,
+    DATE(`timestamp`) AS date_key,
     country,
     city,
     pollutant,
-    AVG(value) AS avg_value,
+    AVG(`value`) AS avg_value,
     unit,
     source_name
 FROM `bigquery-public-data.openaq.global_air_quality`
