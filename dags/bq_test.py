@@ -17,7 +17,7 @@ location = 'US'
 
 project_id = "test-project-karl" # TODO: replace this with your own project ID
 dataset_name = "airflow_test" # TODO: replace this with your own dataset ID
-table_name = "covid_table"
+table_name = "air_quality"
 
 default_dag_args = {
     # Setting start date as yesterday starts the DAG immediately when it is
@@ -49,7 +49,7 @@ with models.DAG(
     sql = read_sql(table_name)
 
     run_query = bigquery.BigQueryInsertJobOperator(
-        task_id=f"run_query_table_{table_name}",
+        task_id="run_query",
         configuration={
             "query": {
                 "query": sql,
