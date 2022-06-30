@@ -15,8 +15,8 @@ yesterday = datetime.datetime.combine(
 )
 location = 'US'
 
-project_id = "test-project-karl"
-dataset_name = "airflow_test"
+project_id = "test-project-karl" # TODO: replace this with your own project ID
+dataset_name = "airflow_test" # TODO: replace this with your own dataset ID
 table_name = "covid_table"
 
 default_dag_args = {
