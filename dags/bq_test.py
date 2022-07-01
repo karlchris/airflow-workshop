@@ -13,7 +13,6 @@ yesterday = datetime.datetime.combine(
     datetime.datetime.today() - datetime.timedelta(1),
     datetime.datetime.min.time()
 )
-location = 'US'
 
 project_id = "test-project-karl" # TODO: replace this with your own project ID
 dataset_name = "airflow_test" # TODO: replace this with your own dataset ID
@@ -62,7 +61,7 @@ with models.DAG(
                 "writeDisposition": "WRITE_TRUNCATE",
             }
         },
-        location=location,
+        location='US',
     )
 
 start >> run_query >> end
